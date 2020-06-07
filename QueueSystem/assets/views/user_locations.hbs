@@ -1,0 +1,25 @@
+{{> navbar_user }}
+
+<div class="content">
+  <h2>Locations</h2>
+  {{#each locations}}
+      <div class="card-padding">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{name}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{queue.length}} in Queue - Capacity: {{capacity}}</h6>
+            <p class="card-text">{{description}}</p>
+            <a href="javascript:document.getElementById('queue-{{uuid}}').submit()" class="card-link">Queue</a>
+          </div>
+        </div>
+      </div>
+
+      <div hidden>
+        <form id="queue-{{uuid}}" action="/user/queue" method="post">
+          <input type="hidden" name="id" value="{{../user.uuid}}"></input>
+          <input type="hidden" name="loc_id" value="{{uuid}}"></input>
+          <input type="submit" value="Queue Location"></input>
+        </form>
+      </div>
+    {{/each}}
+</div>

@@ -1,0 +1,28 @@
+html {
+  text-align: center;
+}
+
+.content {
+  padding: 50px 50px 50px 50px;
+  margin: auto auto auto auto;
+}
+
+.card-padding {
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.form {
+  background-color: #eeeeee;
+  border-radius: 10px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 400px;
+}

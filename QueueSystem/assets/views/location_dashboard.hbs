@@ -1,0 +1,62 @@
+{{> navbar_dashboard }}
+
+<div class="content">
+  <h3>Location</h3>
+  <span>Name: {{location.name}}</span><br>
+  <span>Window: {{location.window}}</span><br>
+  <span>Max Capacity: {{location.capacity}}</span><br>
+
+  <br>
+
+  <h2>At Location ({{location.current.length}})</h2>
+  <div class="row">
+    {{#each location.current}}
+      <div class="card-padding">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{name}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">Currently at Location</h6>
+            <a href="javascript:document.getElementById('formKick-{{uuid}}').submit()" class="card-link">Kick</a>
+          </div>
+        </div>
+
+        <div hidden>
+          <form id="formKick-{{uuid}}" action="/location/kick" method="post">
+            <input type="hidden" name="user_id" value="{{uuid}}"></input>
+            <input type="hidden" name="id" value="{{../location.uuid}}"></input>
+          </form>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+
+  <h2>Ready ({{location.waiting.length}})</h2>
+  <div class="row">
+    {{#each l.waiting}}
+      <div class="card-padding">
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <h5 class="card-title">{{user.name}}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{time_left timestamp}} Remaining</h6>
+          </div>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+
+  <h2>In Queue ({{location.queue.length}})</h1>
+  <div class="row">
+    {{#each l.queue }}
+      <div class="card-padding">
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{user.name}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Position {{position}} in queue</h6>
+            </div>
+          </div>
+        </div>
+    {{/each}}
+  </div>
+</div>
