@@ -91,7 +91,10 @@ api.post('/update', (req: Request, res: Response) => {
     (v) => v.uuid === id
   )
 
-  if (!location) res.redirect(`/`)
+  if (!location) {
+    res.redirect('/')
+    return
+  }
 
   location!!.name = name
   location!!.description = description
