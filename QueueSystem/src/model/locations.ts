@@ -11,6 +11,9 @@ export class Location {
   public name: string = 'Location'
   public description: string = 'No Description'
 
+  public locX: number = 0
+  public locY: number = 0
+
   public current: User[] = []
   public waiting: { timeout: Date; user: User }[] = []
   public queue: QueuePosition[] = []

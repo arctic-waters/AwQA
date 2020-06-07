@@ -106,10 +106,18 @@ api.get('/new', (req: Request, res: Response) => {
 })
 
 api.post('/create', (req: Request, res: Response) => {
-  const { name, description, capacity, window } = req.body
+  const { name, description, capacity, window, loc_x, loc_y } = req.body
 
   const numCapacity = parseInt(capacity)
   const numWindow = parseInt(window)
+
+  const numLoc_x = parseFloat(loc_x)
+  const numLoc_y = parseFloat(loc_y)
+
+  if (isNaN(numLoc_x) || isNaN(numLoc_y)) {
+    res.redirect(`/location/new`)
+    return
+  }
 
   const numCapacitySafe = isNaN(numCapacity) ? 10 : numCapacity
   const numWindowSafe = isNaN(numWindow) ? 10 : numWindow
@@ -119,6 +127,7 @@ api.post('/create', (req: Request, res: Response) => {
     description,
     capacity: numCapacitySafe,
     window: numWindowSafe,
+    location: [numLoc_x, numLoc_y],
   })
 
   res.redirect(`/location/dashboard?id=${location.uuid}`)

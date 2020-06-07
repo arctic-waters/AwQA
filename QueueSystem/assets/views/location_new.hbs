@@ -1,5 +1,13 @@
+<link rel="stylesheet" href="https://js.arcgis.com/4.15/esri/themes/light/main.css">
+<script src="https://js.arcgis.com/4.15/"></script>
+
+<script src="/public/js/picker.js"></script>
+
 <div class="content form">
   <form method="post" action="/location/create">
+    <input type="hidden" id="locX" name="loc_x" value="">
+    <input type="hidden" id="locY" name="loc_y" value="">
+
     <div class="form-group">
       <label for="name">Location Name</label>
       <input type="text" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Name" name="name">
@@ -23,6 +31,9 @@
       <input type="text" class="form-control" id="window" aria-describedby="windowHelp" placeholder="10" name="window">
       <small id="windowHelp" class="form-text text-muted">The amount of time users have to enter the location before their position is discarded</small>
     </div>
+
+    <h5>Select Location</h5>
+    <div id="viewDiv" style="height: 200px;"></div>
       
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
