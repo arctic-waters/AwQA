@@ -95,15 +95,15 @@
 
   const points = [
     {{#each u.locationsCurrent}}
-      [{{locX}}, {{locY}}, 0, {{name}}],
+      [{{locX}}, {{locY}}, 0, '{{name}}'],
     {{/each}}
 
     {{#each u.positions}}
-      [{{location.locX}}, {{location.locY}}, {{estimate_time position location.capacity}}, {{location.name}}],
+      [{{location.locX}}, {{location.locY}}, {{estimate_time position location.capacity}}, '{{location.name}}'],
     {{/each}}
 
     {{#each u.locationsWaiting}}
-      [{{locX}}, {{locY}}, 0, {{name}}],
+      [{{locX}}, {{locY}}, 0, '{{name}}'],
     {{/each}}
   ]
 
