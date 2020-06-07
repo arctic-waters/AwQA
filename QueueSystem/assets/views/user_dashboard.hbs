@@ -7,7 +7,7 @@
   <h3>User</h3>
   <p>Name: {{user.name}}</p>
 
-  <h3>Currently In ({{u.locationsCurrent.length}})</h3>
+  <h3>Currently in... ({{u.locationsCurrent.length}} Locations)</h3>
   <div class="row">
     {{#each u.locationsCurrent}}
       <div class="card-padding">
@@ -31,14 +31,14 @@
     {{/each}}
   </div>
 
-  <h3>Currently Ready ({{u.locationsWaiting.length}})</h3>
+  <h3>Ready to Enter... ({{u.locationsWaiting.length}} Locations)</h3>
   <div class="row">
     {{#each u.waitingTimes}}
       <div class="card-padding">
         <div class="card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title">{{location.name}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{time_left timestamp}} Remaining</h6>
+            <h6 class="card-subtitle mb-2 text-muted">{{fancy_time (time_left timestamp)}} Remaining</h6>
             <p class="card-text">{{location.description}}</p>
             <a href="javascript:document.getElementById('formCancel-{{location.uuid}}').submit()" class="card-link">Cancel</a>
             <a href="javascript:document.getElementById('formJoin-{{location.uuid}}').submit()" class="card-link">Enter</a>
@@ -61,14 +61,15 @@
   </div>
 
 
-  <h3>Currently Queued ({{u.locationsQueued.length}})</h3>
+  <h3>In Line... ({{u.locationsQueued.length}} Locations)</h3>
   <div class="row">
     {{#each u.positions}}
       <div class="card-padding">
         <div class="card" style="width: 18rem;">
           <div class="card-body">
             <h5 class="card-title">{{location.name}}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Position {{position}} in Queue</h6>
+            <h6 class="card-subtitle mb-2 text-muted">Position {{position}} in Queue - ETA: {{fancy_time (estimate_time position location.capacity)}}
+            </h6>
             <p class="card-text">{{location.description}}</p>
             <a href="javascript:document.getElementById('formCancelQueued-{{location.uuid}}').submit()" class="card-link">Cancel</a>
           </div>
@@ -94,15 +95,15 @@
 
   const points = [
     {{#each u.locationsCurrent}}
-      [{{locX}}, {{locY}}],
+      [{{locX}}, {{locY}}, 0, {{name}}],
     {{/each}}
 
-    {{#each u.locationsQueued}}
-      [{{locX}}, {{locY}}],
+    {{#each u.positions}}
+      [{{location.locX}}, {{location.locY}}, {{estimate_time position location.capacity}}, {{location.name}}],
     {{/each}}
 
     {{#each u.locationsWaiting}}
-      [{{locX}}, {{locY}}],
+      [{{locX}}, {{locY}}, 0, {{name}}],
     {{/each}}
   ]
 

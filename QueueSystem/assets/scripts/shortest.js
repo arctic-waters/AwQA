@@ -10,6 +10,7 @@ require([
   'esri/geometry/SpatialReference',
   'esri/tasks/GeometryService',
   'esri/tasks/support/DistanceParameters',
+  'esri/symbols/TextSymbol',
 ], function (
   Map,
   MapView,
@@ -21,7 +22,8 @@ require([
   geometryEngine,
   SpatialReference,
   GeometryService,
-  DistanceParameters
+  DistanceParameters,
+  TextSymbol
 ) {
   class Graph {
     constructor() {
@@ -31,9 +33,10 @@ require([
       const graph = this
 
       this.Node = class Node {
-        constructor(name = 'Node') {
+        constructor(eta, name = 'Node') {
           this.dist = {}
           this.name = name
+          this.eta = eta
 
           graph.nodes.push(this)
         }
@@ -47,7 +50,7 @@ require([
         }
 
         toString() {
-          return this.name
+          return '' + this.name
         }
       }
     }
@@ -94,8 +97,14 @@ require([
 
       let acc = 0
 
-      for (let i = 0; i < permutation.length - 1; i++)
+      acc += permutation[0].eta
+
+      for (let i = 0; i < permutation.length - 1; i++) {
         acc += graph.distance(permutation[i], permutation[i + 1])
+        if (acc < permutation[i + 1].eta) {
+          acc = permutation[i + 1].eta
+        }
+      }
 
       console.log(acc)
 
@@ -131,18 +140,43 @@ require([
       'https://utility.arcgisonline.com/ArcGIS/rest/services/Geometry/GeometryServer',
   })
 
-  // var points = []
+  // const points = [
+  //   [-13690949.114792448, 6317441.24563755, 50000, "walmart"],
+  //   [-13689878.996396458, 6319810.793514388, 2993, "lol"],
+  //   [-13684585.732187716, 6315129.025531927, 39498859, "XDDDDDDDD"],
+  // ]
 
-  function addGraphic(type, point) {
+  function addGraphic(name, point) {
     var graphic = new Graphic({
       symbol: {
         type: 'simple-marker',
-        color: type === 'start' ? 'white' : 'black',
+        color: 'white',
         size: '8px',
       },
       geometry: point,
     })
     view.graphics.add(graphic)
+
+    var textSymbol = new Graphic({
+      symbol: {
+        type: 'text', // autocasts as new TextSymbol()
+        color: 'white',
+        haloColor: 'black',
+        haloSize: '1px',
+        text: name,
+        xoffset: 3,
+        yoffset: 3,
+        font: {
+          // autocasts as new Font()
+          size: 12,
+          family: 'Josefin Slab',
+          weight: 'bold',
+        },
+      },
+      geometry: point,
+    })
+
+    view.graphics.add(textSymbol)
   }
 
   function getRoute() {
@@ -176,7 +210,7 @@ require([
     var nodeArr = []
 
     for (var i = 0; i < points.length; i++) {
-      nodeArr.push(new test.Node('' + i))
+      nodeArr.push(new test.Node(points[i][2], '' + i))
     }
 
     for (var i = 0; i < points.length - 1; i++) {
@@ -204,7 +238,7 @@ require([
         distParams.geodesic = true
         console.log('dist')
 
-        var dist = await geometryService.distance(distParams)
+        var dist = (await geometryService.distance(distParams)) * 72
 
         test.edge(nodeArr[i], nodeArr[j], dist)
       }
@@ -214,7 +248,7 @@ require([
 
     for (var i = 0; i < points.length; i++) {
       addGraphic(
-        'start',
+        points[solArr[i]][3],
         new Point({
           x: points[solArr[i]][0],
           y: points[solArr[i]][1],
@@ -228,15 +262,13 @@ require([
     getRoute()
   }
 
-  // view.on('click', function (event) {
-  //   points.push([event.mapPoint.x, event.mapPoint.y])
+  view.on('click', function (event) {
+    points.push([event.mapPoint.x, event.mapPoint.y])
 
-  //   console.log(event.mapPoint.x, event.mapPoint.y)
-
-  //   if (points.length == 3) {
-  //     getPlotDistances()
-  //   }
-  // })
+    if (points.length == 3) {
+      getPlotDistances()
+    }
+  })
 
   getPlotDistances()
 })
