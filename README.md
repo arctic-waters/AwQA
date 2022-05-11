@@ -1,13 +1,7 @@
-# XdHacks-Covid
-A quick 48h project for the XdHacks-Covid hackathon!
+# AwQA - ArcticWaters Queue Application
 
-# Components
-The ContourMap application can be found under the ContourMap directory
-The QueueSystem web application server can be found under the QueueSystem folder
+ArticWaters Queue Application is a hackathon project (prototype) meant to allow simple and effective virtual queue systems to ensure safety protocols of physical locations are being met in the midst of the COVID-19 pandemic.
+It features a ContourMap application to help location owners map out the physical area of their location and calculate maximum capacity, and a QueueSystem web application server to manage dynamic virtual queues.
+This project was written for the XdHacks-Covid hackathon.
 
-# Git Repository
-Official Repository is available at https://stash.arct.io/ArcticWaters/XdHacks-Covid
-Mirrored GitHub Repository is available at Official Repository is available at https://github.com/arktfox/XdHacks-Covid
-
-# Live Application
-A live application is available [here](https://aw.arct.io/)
+**This repository is for archival purposes and is not maintained.**
